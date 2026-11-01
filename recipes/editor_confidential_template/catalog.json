@@ -1,0 +1,10 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Editor menu entry that puts a red CONFIDENTIAL banner and watermark on the open capture.",
+  "tags": [
+    "editor",
+    "annotation"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Region capture with a watermark of user, machine and time, plus a sound while it works.",
+  "tags": [
+    "after-capture",
+    "annotation"
+  ]
+}
