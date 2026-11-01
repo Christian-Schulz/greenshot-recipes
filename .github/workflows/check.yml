@@ -31,7 +31,11 @@ jobs:
         run: python -m pip install jsonschema==4.23.0
 
       - name: Get the recipe schema
-        run: curl -fsSL -o "$RUNNER_TEMP/recipe.schema.json" "https://raw.githubusercontent.com/greenshot/greenshot/$GREENSHOT_REF/docs/vNext/recipe.schema.json"
+        # by commit: raw.githubusercontent.com caches a branch name for minutes
+        run: |
+          sha=$(git ls-remote https://github.com/greenshot/greenshot "$GREENSHOT_REF" | head -n 1 | cut -f 1)
+          sha=${sha:-$GREENSHOT_REF}
+          curl -fsSL -o "$RUNNER_TEMP/recipe.schema.json" "https://raw.githubusercontent.com/greenshot/greenshot/$sha/docs/vNext/recipe.schema.json"
 
       - name: Check
         env:

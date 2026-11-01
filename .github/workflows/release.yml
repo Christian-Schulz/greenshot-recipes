@@ -37,7 +37,10 @@ jobs:
 
       - name: Check
         run: |
-          curl -fsSL -o "$RUNNER_TEMP/recipe.schema.json" "https://raw.githubusercontent.com/greenshot/greenshot/$GREENSHOT_REF/docs/vNext/recipe.schema.json"
+          # by commit: raw.githubusercontent.com caches a branch name for minutes
+          sha=$(git ls-remote https://github.com/greenshot/greenshot "$GREENSHOT_REF" | head -n 1 | cut -f 1)
+          sha=${sha:-$GREENSHOT_REF}
+          curl -fsSL -o "$RUNNER_TEMP/recipe.schema.json" "https://raw.githubusercontent.com/greenshot/greenshot/$sha/docs/vNext/recipe.schema.json"
           python tools/catalog.py check --schema "$RUNNER_TEMP/recipe.schema.json"
 
       - name: Build index.json
