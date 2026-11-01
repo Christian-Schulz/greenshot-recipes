@@ -1,0 +1,6 @@
+# Recipe files are downloaded by hash: keep the committed bytes the same everywhere
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.webp binary
