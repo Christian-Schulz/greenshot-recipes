@@ -1,0 +1,10 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Converts an image file to another format (png, jpg, webp, bmp, gif, tiff) from the command line.",
+  "tags": [
+    "command-line",
+    "files"
+  ]
+}

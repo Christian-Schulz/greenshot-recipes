@@ -1,0 +1,10 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Stamps a \"REVIEWED\" badge with the date on an image file and saves a copy next to it.",
+  "tags": [
+    "command-line",
+    "annotation"
+  ]
+}

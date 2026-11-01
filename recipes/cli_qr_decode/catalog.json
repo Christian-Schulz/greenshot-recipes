@@ -1,0 +1,10 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Reads QR codes and barcodes in an image file and prints their text.",
+  "tags": [
+    "command-line",
+    "qr-code"
+  ]
+}

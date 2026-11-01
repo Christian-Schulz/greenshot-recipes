@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Greenshot recipe catalog entry",
+  "description": "catalog.json next to a recipe: what the catalog needs to list it. Not part of the recipe file, so changing it doesn't change what the user approved.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "version", "minGreenshot", "summary" ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "The version of this recipe (major.minor.patch). Goes up with every change of the recipe file."
+    },
+    "minGreenshot": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "The oldest Greenshot version the recipe works with, e.g. 1.4.0."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "One line for the catalog overview."
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "description": "Lower case words for filtering, e.g. after-capture, editor, command-line, clipboard, qr-code."
+    }
+  }
+}

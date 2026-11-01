@@ -1,0 +1,11 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Region capture with three example QR codes: a SEPA payment, a business card and a link.",
+  "tags": [
+    "after-capture",
+    "qr-code",
+    "annotation"
+  ]
+}

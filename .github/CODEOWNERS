@@ -1,0 +1,5 @@
+# Maintainers review everything; a recipe's author can be added as owner of its folder
+*                @Lakritzator
+/tools/          @Lakritzator
+/.github/        @Lakritzator
+/catalog.schema.json @Lakritzator

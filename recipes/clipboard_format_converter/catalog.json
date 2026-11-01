@@ -1,0 +1,11 @@
+{
+  "$schema": "../../catalog.schema.json",
+  "version": "1.0.0",
+  "minGreenshot": "1.4.0",
+  "summary": "Watches the clipboard: a copied image gets a small time stamp and opens in the editor.",
+  "tags": [
+    "clipboard",
+    "annotation",
+    "editor"
+  ]
+}

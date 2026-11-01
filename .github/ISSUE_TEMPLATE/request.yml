@@ -1,0 +1,11 @@
+name: Recipe request
+description: Ask for a recipe that does something new
+labels: [request]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What should the recipe do?
+      description: How is it started, what happens to the capture, where does it end up?
+    validations:
+      required: true
