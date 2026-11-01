@@ -7,9 +7,26 @@ Recipes come with Greenshot 1.4, currently in beta.
 
 ## Use a recipe
 
-Each folder under [`recipes/`](recipes) is one recipe. Download its `recipe.gsrecipe.json` and import it in Greenshot's
-recipe manager. Greenshot shows what the recipe does and what it needs your permission for (running a program, sending
-data to a server, writing files) before anything runs.
+Pick a recipe on [getgreenshot.org/recipes](https://getgreenshot.org/recipes/?from=greenshot) and click "Install":
+Greenshot downloads it from this catalog and shows what the recipe does, what it needs your permission for (running a
+program, sending data to a server, writing files) and its settings before anything runs. You can also download a
+folder's `recipe.gsrecipe.json` under [`recipes/`](recipes) and import it in Greenshot's recipe manager.
+
+## How Greenshot trusts the catalog
+
+Every merge that changes a recipe publishes a release with `index.json` (each recipe's version, SHA-256 and download
+link pinned to the merge commit) and `index.json.sig`, its ECDSA P-256 signature. Greenshot checks the signature with
+the public keys built into it, then the SHA-256 of the recipe file it downloads.
+
+The private key is the repository secret `RECIPE_INDEX_SIGNING_KEY`. To make a key pair:
+
+```
+openssl ecparam -name prime256v1 -genkey -noout -out recipe-index.key.pem
+openssl pkey -in recipe-index.key.pem -pubout -out recipe-index.pub.pem
+```
+
+The public key (base64 between the PEM lines) goes into `RecipeCatalogSignature.CatalogKeys` in Greenshot. Greenshot
+knows two keys, so a second, offline key can take over without a Greenshot release in between.
 
 ## Add or change a recipe
 

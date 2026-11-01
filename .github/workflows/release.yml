@@ -1,7 +1,7 @@
 name: Publish the index
 
 # Every merge that changes a recipe publishes index.json as a release: the website and Greenshot read the latest one.
-# The signature of index.json comes later.
+# index.json.sig is its ECDSA P-256 signature (SHA-256, DER), checked by Greenshot before it installs from the catalog.
 on:
   push:
     branches: [main]
@@ -46,11 +46,33 @@ jobs:
       - name: Build index.json
         run: python tools/catalog.py index --repository "$GITHUB_REPOSITORY" --commit "$GITHUB_SHA" --out "$RUNNER_TEMP/index.json"
 
+      - name: Sign index.json
+        # RECIPE_INDEX_SIGNING_KEY: the private key (PEM) of one of the public keys built into Greenshot
+        env:
+          SIGNING_KEY: ${{ secrets.RECIPE_INDEX_SIGNING_KEY }}
+        run: |
+          if [ -z "$SIGNING_KEY" ]; then
+            echo "::warning::RECIPE_INDEX_SIGNING_KEY isn't set, this release has no signature and Greenshot won't install from it"
+            exit 0
+          fi
+          umask 077
+          printf '%s\n' "$SIGNING_KEY" > "$RUNNER_TEMP/key.pem"
+          openssl dgst -sha256 -sign "$RUNNER_TEMP/key.pem" -out "$RUNNER_TEMP/index.json.sig" "$RUNNER_TEMP/index.json"
+          openssl pkey -in "$RUNNER_TEMP/key.pem" -pubout -out "$RUNNER_TEMP/key.pub.pem"
+          rm -f "$RUNNER_TEMP/key.pem"
+          openssl dgst -sha256 -verify "$RUNNER_TEMP/key.pub.pem" -signature "$RUNNER_TEMP/index.json.sig" "$RUNNER_TEMP/index.json"
+          echo "Signed with:"
+          cat "$RUNNER_TEMP/key.pub.pem"
+
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tag="catalog-$(date -u +%Y%m%d-%H%M%S)-${GITHUB_SHA::7}"
-          gh release create "$tag" "$RUNNER_TEMP/index.json" --target "$GITHUB_SHA" --latest \
+          files=("$RUNNER_TEMP/index.json")
+          if [ -f "$RUNNER_TEMP/index.json.sig" ]; then
+            files+=("$RUNNER_TEMP/index.json.sig")
+          fi
+          gh release create "$tag" "${files[@]}" --target "$GITHUB_SHA" --latest \
             --title "Catalog $(date -u +%Y-%m-%d) (${GITHUB_SHA::7})" \
             --notes "index.json of commit $GITHUB_SHA"
